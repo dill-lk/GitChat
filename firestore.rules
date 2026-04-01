@@ -45,11 +45,12 @@ service cloud.firestore {
 
     function isValidChat() {
       let data = request.resource.data;
-      return hasOnlyAllowedFields(['participants', 'lastMessage', 'lastMessageTime', 'createdAt', 'updatedAt']) &&
+      return hasOnlyAllowedFields(['participants', 'lastMessage', 'lastMessageTime', 'createdAt', 'updatedAt', 'typing']) &&
              data.participants is list && data.participants.size() >= 2 && data.participants.size() <= 10 &&
              request.auth.uid in data.participants &&
              (!('lastMessage' in data) || (data.lastMessage is string && data.lastMessage.size() < 5000)) &&
              (!('lastMessageTime' in data) || data.lastMessageTime is timestamp) &&
+             (!('typing' in data) || data.typing is map) &&
              data.createdAt is timestamp &&
              data.updatedAt is timestamp;
     }
