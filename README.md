@@ -117,6 +117,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 <parameter name="new_str">**Made with ❤️ for the GitHub Developer Community**
 
-[🌐 Live Demo](https://gittchat.vercel.app) · [Report Bug](https://github.com/dill-lk/GitChat/issues) · [Request Feature](https://github.com/dill-lk/GitChat/issues)
+[🌐 GitChat](https://gittchat.vercel.app) · [Report Bug](https://github.com/dill-lk/GitChat/issues) · [Request Feature](https://github.com/dill-lk/GitChat/issues)
 
 </div>
