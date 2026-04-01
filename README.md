@@ -1,7 +1,7 @@
 
 # 💬 GitChat
 
-**A GitHub-styled real-time chat application**
+**The missing DM feature for GitHub — Chat with developers using your GitHub identity**
 
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
 [![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
@@ -12,15 +12,28 @@
 
 ---
 
+## 🤔 Why GitChat?
+
+**GitHub has no DMs.** You can comment on issues and discussions, but there's no way to directly message other developers. GitChat solves this by:
+
+- Connecting your **real GitHub profile** — no separate account needed
+- Letting you **DM any developer** who's also on GitChat
+- Showing your **GitHub identity** (username, avatar, bio, followers)
+- Creating a **seamless experience** that feels native to GitHub
+
+> *"What if GitHub had Discord-style DMs?"* — That's GitChat.
+
+---
+
 ## ✨ Features
 
-- 🔐 **GitHub Authentication** - Sign in securely with your GitHub account
-- 💬 **Real-time Messaging** - Instant message delivery powered by Firebase Firestore
+- 🔐 **GitHub OAuth Login** - Sign in with your GitHub account, no passwords to remember
+- 👤 **Profile Sync** - Your GitHub avatar, bio, followers & following automatically imported
+- 💬 **Real-time DMs** - Instant message delivery powered by Firebase Firestore
 - ⌨️ **Typing Indicators** - See when others are typing in real-time
-- 🎨 **GitHub-inspired UI** - Beautiful dark theme matching GitHub's design language
-- 📱 **Responsive Design** - Works seamlessly on desktop and mobile
-- 🔍 **User Discovery** - Find and chat with other GitHub users
-- 📝 **Markdown Support** - Format your messages with inline code
+- 🎨 **GitHub Dark Theme** - Beautiful UI matching GitHub's design language
+- 🔍 **Developer Discovery** - Find and chat with other GitHub users
+- 📝 **Markdown Support** - Format messages with inline code blocks
 
 ---
 
@@ -105,6 +118,20 @@ The app includes security rules in `firestore.rules` to protect user data. Make 
 
 ---
 
+## 🚀 Roadmap
+
+Future features planned for GitChat:
+
+- [ ] **Repo Rooms** - Group chat for repository collaborators
+- [ ] **Code Snippet Sharing** - Share code with syntax highlighting
+- [ ] **Issue/PR Cards** - Type `#123` to show live issue/PR status
+- [ ] **Message Requests** - Accept/decline DMs to prevent spam
+- [ ] **Online Status** - See who's currently online
+- [ ] **Read Receipts** - Know when your message is seen
+- [ ] **Mobile App** - React Native version
+
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -125,8 +152,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 <div align="center">
 
-**Made with ❤️ by the GitChat Team**
+<parameter name="new_str">**Made with ❤️ for the GitHub Developer Community**
 
-[Report Bug](https://github.com/dill-lk/GitChat/issues) · [Request Feature](https://github.com/dill-lk/GitChat/issues)
+[🌐 Live Demo](https://gittchat.vercel.app) · [Report Bug](https://github.com/dill-lk/GitChat/issues) · [Request Feature](https://github.com/dill-lk/GitChat/issues)
 
 </div>
