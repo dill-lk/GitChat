@@ -1,0 +1,5 @@
+{
+  "name": "GitChat",
+  "description": "A GitHub-integrated chat application mockup featuring real-time messaging, code snippet sharing, and developer-focused features.",
+  "requestFramePermissions": []
+}

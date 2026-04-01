@@ -1,0 +1,67 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A GitHub user profile synced to GitChat.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "login": { "type": "string", "description": "GitHub username" },
+        "name": { "type": "string", "description": "Full name" },
+        "avatarUrl": { "type": "string", "description": "URL to avatar image" },
+        "bio": { "type": "string", "description": "User bio" },
+        "company": { "type": "string", "description": "Company name" },
+        "location": { "type": "string", "description": "Location" },
+        "blog": { "type": "string", "description": "Blog URL" },
+        "followers": { "type": "number" },
+        "following": { "type": "number" },
+        "createdAt": { "type": "timestamp" },
+        "updatedAt": { "type": "timestamp" }
+      },
+      "required": ["uid", "login", "avatarUrl", "createdAt", "updatedAt"]
+    },
+    "Chat": {
+      "title": "Chat",
+      "description": "A conversation between two or more users.",
+      "type": "object",
+      "properties": {
+        "participants": { 
+          "type": "array", 
+          "items": { "type": "string" },
+          "description": "Array of user UIDs"
+        },
+        "lastMessage": { "type": "string" },
+        "lastMessageTime": { "type": "timestamp" },
+        "createdAt": { "type": "timestamp" },
+        "updatedAt": { "type": "timestamp" }
+      },
+      "required": ["participants", "createdAt", "updatedAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "A single chat message.",
+      "type": "object",
+      "properties": {
+        "chatId": { "type": "string" },
+        "authorId": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "timestamp" }
+      },
+      "required": ["chatId", "authorId", "text", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stores user profiles."
+    },
+    "/chats/{chatId}": {
+      "schema": { "$ref": "#/entities/Chat" },
+      "description": "Stores chat metadata."
+    },
+    "/chats/{chatId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/Message" },
+      "description": "Stores messages within a chat."
+    }
+  }
+}

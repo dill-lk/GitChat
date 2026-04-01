@@ -1,0 +1,103 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function hasOnlyAllowedFields(allowedFields) {
+      return request.resource.data.keys().hasOnly(allowedFields);
+    }
+    
+    function isParticipant(chatId) {
+      return isAuthenticated() && 
+             request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants;
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+    function isValidUser() {
+      let data = request.resource.data;
+      return hasOnlyAllowedFields(['uid', 'login', 'name', 'avatarUrl', 'bio', 'company', 'location', 'blog', 'followers', 'following', 'createdAt', 'updatedAt']) &&
+             data.uid == request.auth.uid &&
+             data.login is string && data.login.size() > 0 && data.login.size() < 100 &&
+             data.avatarUrl is string && data.avatarUrl.size() < 1000 &&
+             (!('name' in data) || (data.name is string && data.name.size() < 100)) &&
+             (!('bio' in data) || (data.bio is string && data.bio.size() < 500)) &&
+             (!('company' in data) || (data.company is string && data.company.size() < 100)) &&
+             (!('location' in data) || (data.location is string && data.location.size() < 100)) &&
+             (!('blog' in data) || (data.blog is string && data.blog.size() < 200)) &&
+             (!('followers' in data) || data.followers is number) &&
+             (!('following' in data) || data.following is number) &&
+             data.createdAt is timestamp &&
+             data.updatedAt is timestamp;
+    }
+
+    function isValidChat() {
+      let data = request.resource.data;
+      return hasOnlyAllowedFields(['participants', 'lastMessage', 'lastMessageTime', 'createdAt', 'updatedAt']) &&
+             data.participants is list && data.participants.size() >= 2 && data.participants.size() <= 10 &&
+             request.auth.uid in data.participants &&
+             (!('lastMessage' in data) || (data.lastMessage is string && data.lastMessage.size() < 5000)) &&
+             (!('lastMessageTime' in data) || data.lastMessageTime is timestamp) &&
+             data.createdAt is timestamp &&
+             data.updatedAt is timestamp;
+    }
+
+    function isValidMessage(chatId) {
+      let data = request.resource.data;
+      return hasOnlyAllowedFields(['chatId', 'authorId', 'text', 'createdAt']) &&
+             data.chatId == chatId &&
+             data.authorId == request.auth.uid &&
+             data.text is string && data.text.size() > 0 && data.text.size() < 5000 &&
+             data.createdAt is timestamp;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+    
+    // Users Collection
+    match /users/{userId} {
+      // Anyone authenticated can read user profiles to find people to chat with
+      allow read: if isAuthenticated();
+      allow create: if isOwner(userId) && isValidUser();
+      allow update: if isOwner(userId) && isValidUser() && 
+                    request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if false; // Users cannot delete their profiles for now
+    }
+
+    // Chats Collection
+    match /chats/{chatId} {
+      // Users can read chats they are a participant of
+      allow read: if isAuthenticated() && request.auth.uid in resource.data.participants;
+      // Users can create a chat if they are in the participants list
+      allow create: if isAuthenticated() && isValidChat();
+      // Users can update a chat (e.g., lastMessage) if they are a participant
+      allow update: if isAuthenticated() && request.auth.uid in resource.data.participants && isValidChat() &&
+                    request.resource.data.createdAt == resource.data.createdAt &&
+                    request.resource.data.participants == resource.data.participants; // Cannot change participants
+      allow delete: if false;
+      
+      // Messages Subcollection
+      match /messages/{messageId} {
+        // Users can read messages if they are a participant in the parent chat
+        allow read: if isParticipant(chatId);
+        // Users can create messages if they are a participant in the parent chat
+        allow create: if isParticipant(chatId) && isValidMessage(chatId);
+        // Messages cannot be updated or deleted for now
+        allow update, delete: if false;
+      }
+    }
+  }
+}
