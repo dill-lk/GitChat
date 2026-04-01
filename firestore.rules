@@ -28,7 +28,7 @@ service cloud.firestore {
     // ===============================================================
     function isValidUser() {
       let data = request.resource.data;
-      return hasOnlyAllowedFields(['uid', 'login', 'name', 'avatarUrl', 'bio', 'company', 'location', 'blog', 'followers', 'following', 'createdAt', 'updatedAt']) &&
+      return hasOnlyAllowedFields(['uid', 'login', 'name', 'avatarUrl', 'bio', 'company', 'location', 'blog', 'followers', 'following', 'publicRepos', 'publicGists', 'twitterUsername', 'hireable', 'repos', 'githubUrl', 'createdAt', 'updatedAt']) &&
              data.uid == request.auth.uid &&
              data.login is string && data.login.size() > 0 && data.login.size() < 100 &&
              data.avatarUrl is string && data.avatarUrl.size() < 1000 &&
@@ -39,6 +39,12 @@ service cloud.firestore {
              (!('blog' in data) || (data.blog is string && data.blog.size() < 200)) &&
              (!('followers' in data) || data.followers is number) &&
              (!('following' in data) || data.following is number) &&
+             (!('publicRepos' in data) || data.publicRepos is number) &&
+             (!('publicGists' in data) || data.publicGists is number) &&
+             (!('twitterUsername' in data) || data.twitterUsername is string) &&
+             (!('hireable' in data) || data.hireable is bool) &&
+             (!('repos' in data) || data.repos is list) &&
+             (!('githubUrl' in data) || data.githubUrl is string) &&
              data.createdAt is timestamp &&
              data.updatedAt is timestamp;
     }
