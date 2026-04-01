@@ -170,7 +170,7 @@ export const ChatMain = ({ user, activeChatUserId }: { user: any, activeChatUser
         <div className="flex-1">
           <div className="text-sm font-semibold text-fg-default">{activeChatUser?.name || activeChatUser?.login || 'Loading...'} <span className="font-normal text-fg-muted text-xs">· {activeChatUser?.login}</span></div>
           <div className="text-xs text-success-fg flex items-center gap-1">
-            <div className="w-1.5 h-1.5 bg-success-fg rounded-full"></div>
+            <div className="w-1.5 h-1.5 bg-success-fg rounded-full online-indicator"></div>
             Active now
           </div>
         </div>
@@ -188,7 +188,7 @@ export const ChatMain = ({ user, activeChatUserId }: { user: any, activeChatUser
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 chat-messages">
         {messages.length === 0 ? (
           <div className="text-center text-fg-muted text-sm mt-10">
             No messages yet. Say hi to @{activeChatUser?.login}!
@@ -214,7 +214,7 @@ export const ChatMain = ({ user, activeChatUserId }: { user: any, activeChatUser
                       </div>
                     </div>
                   )}
-                  <div className={`flex flex-col gap-0 message-wrapper ${isOwn ? 'items-end message-wrapper-own' : ''}`}>
+                  <div className={`flex flex-col gap-0 message-wrapper message-enter ${isOwn ? 'items-end message-wrapper-own' : ''}`}>
                     <div className={`relative rounded-md max-w-[68%] border message-comment ${isOwn ? 'border-[#1a3e6b] bg-[#0d2340]' : 'border-border-default bg-canvas-subtle'}`}>
                       <div className={`px-3 py-2 border-b rounded-t-md flex items-center gap-2 ${isOwn ? 'bg-[#0c1d30] border-[#1a3e6b]' : 'bg-[#161b22] border-border-muted'}`}>
                         <div className="w-5 h-5 rounded-full bg-[#21262d] border border-white/10 flex items-center justify-center text-[9px] font-semibold overflow-hidden flex-shrink-0">
@@ -311,7 +311,7 @@ export const ChatMain = ({ user, activeChatUserId }: { user: any, activeChatUser
             </div>
             <div className="flex gap-2">
               <button 
-                className="bg-success-emphasis border border-white/10 text-white px-4 py-1.5 rounded-md text-[13px] font-medium cursor-pointer flex items-center gap-1.5 transition-colors hover:bg-[#2ea043] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="send-btn bg-success-emphasis border border-white/10 text-white px-4 py-1.5 rounded-md text-[13px] font-medium cursor-pointer flex items-center gap-1.5 transition-colors hover:bg-[#2ea043] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleSend}
                 disabled={!inputValue.trim()}
               >

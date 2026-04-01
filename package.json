@@ -1,5 +1,7 @@
 {
-  "name": "react-example",
+  "name": "gitchat",
+  "description": "A GitHub-styled real-time chat application built with React, Firebase, and Tailwind CSS",
+  "author": "GitChat Team",
   "private": true,
   "version": "0.0.0",
   "type": "module",

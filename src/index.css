@@ -79,3 +79,53 @@ body {
   0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 
   30% { opacity: 1; transform: translateY(-3px); } 
 }
+
+/* Online pulse animation */
+@keyframes pulse-online {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+.online-indicator {
+  animation: pulse-online 2s ease-in-out infinite;
+}
+
+/* Message hover effects */
+.message-wrapper:hover .message-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+.message-actions {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* Send button pulse */
+@keyframes send-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(35, 134, 54, 0.5); }
+  70% { box-shadow: 0 0 0 8px rgba(35, 134, 54, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(35, 134, 54, 0); }
+}
+.send-btn:not(:disabled):hover {
+  animation: send-pulse 1.5s infinite;
+}
+
+/* Smooth scroll behavior */
+.chat-messages {
+  scroll-behavior: smooth;
+}
+
+/* New message animation */
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.message-enter {
+  animation: slide-in 0.2s ease-out;
+}
